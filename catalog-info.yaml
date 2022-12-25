@@ -1,0 +1,40 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "teste-loki"
+  description: "Test Loki"
+  annotations:
+    github.com/project-slug: devxp-tech/teste-loki
+    backstage.io/techdocs-ref: dir:.
+    argocd/app-name: dev-teste-loki
+    backstage.io/kubernetes-id: "teste-loki"
+    sonarqube.org/project-key: "teste-loki"
+    grafana/tag-selector: "Kubernetes"
+    prometheus.io/rule: container_cpu_usage_seconds_total{namespace="teste-loki"}
+    prometheus.io/alert: all
+  links:
+    - url: https://teste-loki.diegoluisi.eti.br
+      title: Website
+      icon: Website
+    - url: https://grafana.diegoluisi.eti.br/
+      title: Dashboard
+      icon: dashboard
+    - url: https://alerts.diegoluisi.eti.br/
+      title: Alerts
+      icon: alert
+    - url: https://argocd.diegoluisi.eti.br/applications/dev-teste-loki?resource=
+      title: ArgoCD
+      icon: cloud
+    - url: https://grafana.diegoluisi.eti.br/d/k8s_views_ns/kubernetes-views-namespaces?orgId=1&refresh=30s&var-datasource=Prometheus&var-namespace=teste-loki&var-resolution=30s
+      title: Logs
+      icon: cloud
+  tags:
+    - golang
+    - "lab"
+    - "service"
+    - "experimental"
+spec:
+  system: "lab"
+  type:  "service"
+  lifecycle: "experimental"
+  owner: "devxp-tech"

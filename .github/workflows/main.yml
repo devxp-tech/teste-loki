@@ -1,0 +1,169 @@
+name: main
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+
+  vars:
+    name: Setup Environment 🛠️
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.vars.outputs.tag }}
+    steps:
+      - id: vars
+        # run: echo "::set-output name=tag::$(git show -s --format="%h")"
+        run: |
+          if [[ ! "$GITHUB_REF" =~ refs/tags ]]; then
+            echo "::set-output name=tag::$(echo $GITHUB_SHA | cut -c 1-8)"
+          else
+            echo "::set-output name=tag::$(echo $GITHUB_REF | cut -d / -f 3)"
+          fi
+      - run: echo ${{ steps.vars.outputs.tag }}
+
+  test:
+    name: Test Application 🔎
+    runs-on: ubuntu-latest
+    needs:
+      - vars
+    strategy:
+      matrix:
+        go: ["1.17", "1.18"]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v1
+        with:
+          go-version: 
+      - run: go test -v ./...
+
+  sonarqube:
+    name: SonarQube Scan 🔎
+    runs-on: ubuntu-latest
+    needs:
+      - vars
+      - test
+    steps:
+    - uses: actions/checkout@master
+    - name: SonarQube Scan
+      uses: kitabisa/sonarqube-action@v1.2.0
+      with:
+        host: ${{ secrets.SONARQUBE_HOST }}
+        login: ${{ secrets.SONARQUBE_TOKEN }}
+
+  build-and-push:
+    name: Build and Push 📦
+    runs-on: ubuntu-latest
+    needs:
+      - vars
+      - test
+      - sonarqube
+    steps:
+      - name: Checkout the repo 🛎️
+        uses: actions/checkout@v2
+
+      - name: Set rev.txt 🛠️
+        run: git show -s --format="%ai %H %s %aN" HEAD > rev.txt
+
+      - name: Set up QEMU 🛠️
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx 🛠️
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login Docker Registry 🪪
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Build and Push Docker 🚀
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          secrets: |
+            GIT_AUTH_TOKEN=${{ github.token }}
+          tags: ghcr.io/devxp-tech/teste-loki:${{ needs.vars.outputs.tag }},ghcr.io/devxp-tech/teste-loki:latest
+
+  trivy:
+    name: Trivy Scan 🔒
+    runs-on: ubuntu-latest
+    needs:
+      - vars
+      - test
+      - sonarqube
+      - build-and-push
+    steps:
+      - name: Run Trivy vulnerability scanner 🔎
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ghcr.io/devxp-tech/teste-loki:${{ needs.vars.outputs.tag }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results to GitHub Security Tab 📈
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  deploy:
+    name: GitOps Deploy 🏗️
+    runs-on: ubuntu-latest
+    needs:
+      - vars
+      - test
+      - sonarqube
+      - build-and-push
+      - trivy
+
+    steps:
+    - name: Set Kustomize 🛠️
+      uses: imranismail/setup-kustomize@v1
+      with:
+        kustomize-version: "3.9.4"
+
+    - name: GitOps Checkout 🛎️
+      run: git clone https://${REPO_TOKEN}@github.com/diegoluisi/argo.git .
+      env:
+        REPO_TOKEN: ${{secrets.ACCESS_TOKEN_GITHUB}}
+
+    - name: Update Docker Image Tag 🏷️
+      run: |
+        cd apps/teste-loki/overlays/dev
+        #kustomize edit set image diegoluisi/teste-loki:${{ needs.vars.outputs.tag }}
+        OLD_TAG=$(cat kustomization.yaml | grep 'tag:' |  awk '{print $2}')
+        NEW_TAG=${{ needs.vars.outputs.tag }}
+        sed -i "s|$OLD_TAG|$NEW_TAG|g" kustomization.yaml
+
+    - name: Commit and Push 🚀
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -am ":robot: [GitHub Action] Set new image tag to https://github.com/devxp-tech/teste-loki/commit/${{ needs.vars.outputs.tag }}"
+        git push
+
+  slack-workflow-status:
+    if: always()
+    name: Post Status To Slack  📣
+    needs:
+      - vars
+      - test
+      - sonarqube
+      - build-and-push
+      - trivy
+      - deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slack Workflow Notification
+        uses: Gamesight/slack-workflow-status@master
+        with:
+          # Required Input
+          repo_token: ${{secrets.ACCESS_TOKEN_GITHUB}}
+          slack_webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          # Optional Input
+          channel: 'github-notifications'
+          name: 'github-notifications'
+          # icon_emoji: ':poop:'
+          icon_url: ${{ secrets.SLACK_ICON }}
