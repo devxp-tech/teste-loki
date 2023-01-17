@@ -65,3 +65,21 @@ databaseChangeLog:
                   type: varchar
                   constraints:
                     nullable: false
+  - changeSet:
+      id: 3
+      author: dioculos
+      changes:
+        - createTable:
+            tableName: mcdioculos
+            columns:
+              - column:
+                  name: daleste
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: owner
+                  type: varchar
+                  constraints:
+                    nullable: false
