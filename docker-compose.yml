@@ -1,38 +1,32 @@
-version: "3.8"
+version: "3.1"
+
 services:
-
-  # used as base for all services
-  test: &defaults
-    build:
-      context: .
-      target: base
-    working_dir: /app/
-    command: go test -v ./...
+  postgres:
+    image: postgres:latest
     environment:
-      - ENVIRONMENT=development
-      - PORT=80 # dont forget when change this value here &&&
-      - CGO_ENABLED=0
-      - GOOS=linux
+      - POSTGRES_DB=postgres
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/var/lib/postgresql/data
     volumes:
-      - .:/app/
-      - go_packages:/go
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
 
-  # include all information in test and
-  # add the command to run
-  app:
-   <<: *defaults
-   command: go run main.go
-   ports:
-      - 8080:80 # ***update value here
-
-  # use all configuration probided in test
-  # and use a stand-alone image to run tests in Circle-ci workflow
-  ci:
-    <<: *defaults
+  liquibase:
+    container_name: liquibase
+    image: liquibase/liquibase
     build:
       context: .
-      target: ci
-    volumes: []
-
+      dockerfile: Dockerfile-migrations
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./migrations/migrations.yaml:/liquibase/changelog/migrations.yaml
+    depends_on:
+      - postgres
 volumes:
-  go_packages: {}
+  pgdata: {}
