@@ -17,15 +17,15 @@ services:
     container_name: liquibase
     image: liquibase/liquibase
     build:
-      context: .
-      dockerfile: Dockerfile-migrations
+      context: ./liquibase
+      dockerfile: Dockerfile
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
-      - ./migrations/migrations.yaml:/liquibase/changelog/migrations.yaml
+      - ./liquibase/migrations.yaml:/liquibase/changelog/migrations.yaml
     depends_on:
       - postgres
 volumes:
