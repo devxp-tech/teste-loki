@@ -87,17 +87,17 @@ databaseChangeLog:
       id: 4
       author: dioculos
       changes:
-        # - createTable:
-        #     tableName: dofim
-        #     columns:
-        #       - column:
-        #           name: domundo
-        #           type: uuid
-        #           constraints:
-        #             primaryKey: true
-        #             nullable: false
-        #       - column:
-        #           name: owner
-        #           type: varchar
-        #           constraints:
-        #             nullable: false
+        - createTable:
+            tableName: dofim
+            columns:
+              - column:
+                  name: domundo
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: owner
+                  type: varchar
+                  constraints:
+                    nullable: false
