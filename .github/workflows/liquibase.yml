@@ -16,7 +16,7 @@ jobs:
     steps:
       # need checkout before using compose-action
       - uses: actions/checkout@v3
-      - uses: isbang/compose-action@v1.4.1
+      - uses: cloudposse/github-action-docker-compose-test-run@main
         with:
-          compose-file: "./docker-compose.yml"
-          up-flags: "--build"
+          file: ./docker-compose.yml
+          service: liquibase
