@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: cayke.xavier
+      changes:
+        - createTable:
+            tableName: payment
+            columns:
+              - column:
+                  name: id_payment
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: owner
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: reference_code
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: value_amount
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: currency_amount
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: version
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
