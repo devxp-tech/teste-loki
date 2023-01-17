@@ -2,8 +2,14 @@ name: main
 on:
   push:
     branches: ["main"]
+    paths-ignore:
+      - 'README.md'
+      - 'liquibase/**'
   pull_request:
     branches: ["main"]
+    paths-ignore:
+      - 'README.md'
+      - 'liquibase/**'
 
 jobs:
 
@@ -35,7 +41,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v1
         with:
-          go-version: 
+          go-version:
       - run: go test -v ./...
 
   sonarqube:
