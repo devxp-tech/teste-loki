@@ -47,3 +47,21 @@ databaseChangeLog:
                   type: timestamp with time zone
                   constraints:
                     nullable: false
+  - changeSet:
+      id: 2
+      author: diegoluisi
+      changes:
+        - createTable:
+            tableName: soufoda
+            columns:
+              - column:
+                  name: mechupa
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: owner
+                  type: varchar
+                  constraints:
+                    nullable: false
