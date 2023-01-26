@@ -18,6 +18,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o entrypoint
 # the shipment layer
 FROM scratch
 WORKDIR /
+COPY liquibase/migrations.yaml .
 COPY --from=base /usr/local/share/ca-certificates /usr/local/share/ca-certificates
 COPY --from=base /etc/ssl/certs /etc/ssl/certs/
 COPY --from=builder /app/entrypoint .
