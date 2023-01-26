@@ -68,6 +68,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
+          context: liquibase
           secrets: |
             GIT_AUTH_TOKEN=${{ github.token }}
           tags: ghcr.io/devxp-tech/teste-loki-migration:${{ needs.vars.outputs.tag }},ghcr.io/devxp-tech/teste-loki-migration:latest
