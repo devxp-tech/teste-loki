@@ -15,11 +15,11 @@ services:
       - 5432:5432
 
   liquibase:
+    depends_on:
+      - postgres
     container_name: liquibase
     image: liquibase/liquibase
-    build:
-      context: ./liquibase
-      dockerfile: Dockerfile
+    tty: true
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_DB=postgres
@@ -27,8 +27,11 @@ services:
       - POSTGRES_PASSWORD=postgres
     volumes:
       - ./liquibase/migrations.yaml:/liquibase/changelog/migrations.yaml
-    command: "liquibase --url=jdbc:postgresql://postgres:5432/postgres --username=postgres --password=postgres --classpath=/liquibase/changelog --changeLogFile=migrations.yaml update"
-    depends_on:
-      - postgres
+    command: bash -c 'echo N |liquibase
+      --url=jdbc:postgresql://$${POSTGRES_HOST}:5432/$${POSTGRES_DB}
+      --username=$${POSTGRES_USER}
+      --password=$${POSTGRES_PASSWORD}
+      --classpath=/liquibase/changelog
+      --changeLogFile=migrations.yaml update'
 volumes:
   pgdata: {}

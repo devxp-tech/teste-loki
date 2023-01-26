@@ -49,7 +49,7 @@ databaseChangeLog:
                     nullable: false
   - changeSet:
       id: 2
-      author: diegoluisi
+      author: devxp-tech
       changes:
         - createTable:
             tableName: soufoda
