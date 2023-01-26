@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"time"
 
 	_ "github.com/devxp-tech/teste-loki/config"
 	"github.com/devxp-tech/teste-loki/controllers"
@@ -21,6 +22,10 @@ func main() {
 	if err != nil {
 		log.Fatalf("sentry.Init: %s", err)
 	}
+	// Flush buffered events before the program terminates.
+	defer sentry.Flush(2 * time.Second)
+
+	sentry.CaptureMessage("It works!")
 
 	server := gin.New()
 	server.GET("/", func(c *gin.Context) {
