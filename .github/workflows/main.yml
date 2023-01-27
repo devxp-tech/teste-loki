@@ -1,18 +1,16 @@
 name: main
+
 on:
   push:
     branches: ["main"]
     paths-ignore:
       - 'README.md'
-      - 'liquibase/**'
   pull_request:
     branches: ["main"]
     paths-ignore:
       - 'README.md'
-      - 'liquibase/**'
 
 jobs:
-
   vars:
     name: Setup Environment 🛠️
     runs-on: ubuntu-latest
