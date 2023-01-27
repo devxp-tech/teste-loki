@@ -14,7 +14,7 @@ on:
       migration:
         description: Enable Migrations
         required: true
-        default: 'false'
+        default: 'true'
 
 
 jobs:
