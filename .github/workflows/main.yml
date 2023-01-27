@@ -9,6 +9,13 @@ on:
     branches: ["main"]
     paths-ignore:
       - 'README.md'
+  workflow_dispatch:
+    inputs:
+      migration:
+        description: Enable Migrations
+        required: true
+        default: 'false'
+
 
 jobs:
   vars:
@@ -108,6 +115,7 @@ jobs:
           tags: ghcr.io/devxp-tech/teste-loki:${{ needs.vars.outputs.tag }},ghcr.io/devxp-tech/teste-loki:latest
 
       - name: Build and Push Liquibase 🚀
+        if:   github.event.inputs.migration == 'true'
         uses: docker/build-push-action@v3
         with:
           push: true
