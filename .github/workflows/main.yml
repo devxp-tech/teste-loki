@@ -54,7 +54,7 @@ jobs:
       - uses: cloudposse/github-action-docker-compose-test-run@main
         with:
           file: ./docker-compose.yml
-          service: app
+          service: ci
 
   sonarqube:
     name: SonarQube Scan 🔎
@@ -77,6 +77,7 @@ jobs:
     needs:
       - vars
       - test
+      - test-full
       - sonarqube
     steps:
       - name: Checkout the repo 🛎️

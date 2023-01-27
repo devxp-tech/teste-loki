@@ -39,6 +39,8 @@ services:
     build:
       context: .
       target: base
+    depends_on:
+      - liquibase
     working_dir: /app/
     command: go test -v ./...
     environment:
@@ -53,12 +55,10 @@ services:
   # include all information in test and
   # add the command to run
   app:
-   <<: *defaults
-   depends_on:
-      - liquibase
-   command: go run main.go
-   ports:
-      - 8080:80 # ***update value here
+    <<: *defaults
+    command: go run main.go
+    ports:
+    - 8080:80 # ***update value here
 
   # use all configuration probided in test
   # and use a stand-alone image to run tests in Circle-ci workflow
