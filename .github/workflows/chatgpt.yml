@@ -3,11 +3,11 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  hello_world_job:
+  chatgpt:
     runs-on: ubuntu-latest
-    name: ChatGTP explain code
+    name: ChatGTP Explain Code
     steps:
-      - name: ChatGTP explain code
+      - name: ChatGTP Explain Code 🤖
         uses: cirolini/chatgpt-github-actions@v1
         with:
           openai_api_key: ${{ secrets.openai_api_key }}
