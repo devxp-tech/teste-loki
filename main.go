@@ -13,6 +13,7 @@ func main() {
 		c.JSON(200, gin.H{
 			"status":  true,
 			"message": "Hello world for your app teste-loki",
+			"headers": c.Request.Header,
 		})
 	})
 	server.GET("/health-check/liveness", controllers.HealthCheckLiveness)
