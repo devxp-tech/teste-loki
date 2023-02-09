@@ -166,6 +166,7 @@ jobs:
 
     - name: Update Docker Image Tag 🏷️
       run: |
+        ls -all
         cd apps/${{ github.repository }}/overlays/dev
         #kustomize edit set image diegoluisi/${{ github.repository }}:${{ needs.vars.outputs.tag }}
         OLD_TAG=$(cat kustomization.yaml | grep 'tag:' |  awk '{print $2}')
