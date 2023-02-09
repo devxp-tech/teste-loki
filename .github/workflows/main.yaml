@@ -16,6 +16,8 @@ on:
         required: true
         default: 'disabled'
 
+env:
+  GITHUB_REPOSITORY: $GITHUB_REPOSITORY
 
 jobs:
   vars:
@@ -111,7 +113,7 @@ jobs:
           push: true
           secrets: |
             GIT_AUTH_TOKEN=${{ github.token }}
-          tags: ghcr.io/devxp-tech/teste-loki:${{ needs.vars.outputs.tag }},ghcr.io/devxp-tech/teste-loki:latest
+          tags: ghcr.io/devxp-tech/$GITHUB_REPOSITORY:${{ needs.vars.outputs.tag }},ghcr.io/devxp-tech/$GITHUB_REPOSITORY:latest
 
       - name: Build and Push Liquibase 🚀
         if:   github.event.inputs.migration == 'enabled'
@@ -121,7 +123,7 @@ jobs:
           context: liquibase
           secrets: |
             GIT_AUTH_TOKEN=${{ github.token }}
-          tags: ghcr.io/devxp-tech/${GITHUB_REPOSITORY}-migration:${{ needs.vars.outputs.tag }},ghcr.io/devxp-tech/${GITHUB_REPOSITORY}-migration:latest
+          tags: ghcr.io/devxp-tech/$GITHUB_REPOSITORY-migration:${{ needs.vars.outputs.tag }},ghcr.io/devxp-tech/$GITHUB_REPOSITORY-migration:latest
 
   trivy:
     name: Trivy Scan 🔒
@@ -135,7 +137,7 @@ jobs:
       - name: Run Trivy vulnerability scanner 🔎
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ghcr.io/devxp-tech/${GITHUB_REPOSITORY}:${{ needs.vars.outputs.tag }}
+          image-ref: ghcr.io/devxp-tech/$GITHUB_REPOSITORY:${{ needs.vars.outputs.tag }}
           format: 'sarif'
           output: 'trivy-results.sarif'
 
@@ -167,8 +169,8 @@ jobs:
 
     - name: Update Docker Image Tag 🏷️
       run: |
-        cd apps/${GITHUB_REPOSITORY}/overlays/dev
-        #kustomize edit set image diegoluisi/${GITHUB_REPOSITORY}:${{ needs.vars.outputs.tag }}
+        cd apps/$GITHUB_REPOSITORY/overlays/dev
+        #kustomize edit set image diegoluisi/$GITHUB_REPOSITORY:${{ needs.vars.outputs.tag }}
         OLD_TAG=$(cat kustomization.yaml | grep 'tag:' |  awk '{print $2}')
         NEW_TAG=${{ needs.vars.outputs.tag }}
         sed -i "s|$OLD_TAG|$NEW_TAG|g" kustomization.yaml
@@ -177,7 +179,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git commit -am ":robot: [GitHub Action] Set new image tag to https://github.com/devxp-tech/${GITHUB_REPOSITORY}/commit/${{ needs.vars.outputs.tag }}"
+        git commit -am ":robot: [GitHub Action] Set new image tag to https://github.com/devxp-tech/$GITHUB_REPOSITORY/commit/${{ needs.vars.outputs.tag }}"
         git push
 
   slack-workflow-status:
