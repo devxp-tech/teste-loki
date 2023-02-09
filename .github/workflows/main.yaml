@@ -14,7 +14,7 @@ on:
       migration:
         description: Enable Migrations
         required: true
-        default: 'true'
+        default: 'disabled'
 
 
 jobs:
@@ -114,7 +114,7 @@ jobs:
           tags: ghcr.io/devxp-tech/teste-loki:${{ needs.vars.outputs.tag }},ghcr.io/devxp-tech/teste-loki:latest
 
       - name: Build and Push Liquibase 🚀
-        if:   github.event.inputs.migration == 'true'
+        if:   github.event.inputs.migration == 'enabled'
         uses: docker/build-push-action@v3
         with:
           push: true
