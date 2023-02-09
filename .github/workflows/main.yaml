@@ -31,7 +31,7 @@ jobs:
           else
             echo "tag=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
           fi
-      - run: echo ${{ '${{ steps.vars.outputs.tag }}' }}
+      - run: echo '${{ steps.vars.outputs.tag }}'
 
   test:
     name: Test Application 🔎
