@@ -3,7 +3,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  chatgpt:
+  chatgpt-explain:
     runs-on: ubuntu-latest
     name: ChatGTP Explain Code
     steps:
