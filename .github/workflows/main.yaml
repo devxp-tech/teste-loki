@@ -22,17 +22,16 @@ jobs:
     name: Setup Environment 🛠️
     runs-on: ubuntu-latest
     outputs:
-      tag: ${{ steps.vars.outputs.tag }}
+      tag: ${{ '${{ steps.vars.outputs.tag }}' }}
     steps:
       - id: vars
-        # run: echo "::set-output name=tag::$(git show -s --format="%h")"
         run: |
           if [[ ! "$GITHUB_REF" =~ refs/tags ]]; then
-            echo "::set-output name=tag::$(echo $GITHUB_SHA | cut -c 1-8)"
+            echo "tag=$(echo $GITHUB_SHA | cut -c 1-8)" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=tag::$(echo $GITHUB_REF | cut -d / -f 3)"
+            echo "tag=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
           fi
-      - run: echo ${{ steps.vars.outputs.tag }}
+      - run: echo ${{ '${{ steps.vars.outputs.tag }}' }}
 
   test:
     name: Test Application 🔎
@@ -44,7 +43,7 @@ jobs:
         go: ["1.17", "1.18"]
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-go@v1
+      - uses: actions/setup-go@v3
         with:
           go-version:
       - run: go test -v ./...
@@ -112,7 +111,7 @@ jobs:
           push: true
           secrets: |
             GIT_AUTH_TOKEN=${{ github.token }}
-          tags: ghcr.io/devxp-tech/teste-loki:${{ needs.vars.outputs.tag }},ghcr.io/devxp-tech/teste-loki:latest
+          tags: ghcr.io/devxp-tech/${GITHUB_REPOSITORY}:${{ needs.vars.outputs.tag }},ghcr.io/devxp-tech/${GITHUB_REPOSITORY}:latest
 
       - name: Build and Push Liquibase 🚀
         if:   github.event.inputs.migration == 'true'
@@ -122,7 +121,7 @@ jobs:
           context: liquibase
           secrets: |
             GIT_AUTH_TOKEN=${{ github.token }}
-          tags: ghcr.io/devxp-tech/teste-loki-migration:${{ needs.vars.outputs.tag }},ghcr.io/devxp-tech/teste-loki-migration:latest
+          tags: ghcr.io/devxp-tech/${GITHUB_REPOSITORY}-migration:${{ needs.vars.outputs.tag }},ghcr.io/devxp-tech/${GITHUB_REPOSITORY}-migration:latest
 
   trivy:
     name: Trivy Scan 🔒
@@ -136,7 +135,7 @@ jobs:
       - name: Run Trivy vulnerability scanner 🔎
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ghcr.io/devxp-tech/teste-loki:${{ needs.vars.outputs.tag }}
+          image-ref: ghcr.io/devxp-tech/${GITHUB_REPOSITORY}:${{ needs.vars.outputs.tag }}
           format: 'sarif'
           output: 'trivy-results.sarif'
 
@@ -168,8 +167,8 @@ jobs:
 
     - name: Update Docker Image Tag 🏷️
       run: |
-        cd apps/teste-loki/overlays/dev
-        #kustomize edit set image diegoluisi/teste-loki:${{ needs.vars.outputs.tag }}
+        cd apps/${GITHUB_REPOSITORY}/overlays/dev
+        #kustomize edit set image diegoluisi/${GITHUB_REPOSITORY}:${{ needs.vars.outputs.tag }}
         OLD_TAG=$(cat kustomization.yaml | grep 'tag:' |  awk '{print $2}')
         NEW_TAG=${{ needs.vars.outputs.tag }}
         sed -i "s|$OLD_TAG|$NEW_TAG|g" kustomization.yaml
@@ -178,7 +177,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git commit -am ":robot: [GitHub Action] Set new image tag to https://github.com/devxp-tech/teste-loki/commit/${{ needs.vars.outputs.tag }}"
+        git commit -am ":robot: [GitHub Action] Set new image tag to https://github.com/devxp-tech/${GITHUB_REPOSITORY}/commit/${{ needs.vars.outputs.tag }}"
         git push
 
   slack-workflow-status:
