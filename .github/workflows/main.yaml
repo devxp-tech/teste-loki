@@ -111,7 +111,7 @@ jobs:
           push: true
           secrets: |
             GIT_AUTH_TOKEN=${{ github.token }}
-          tags: ghcr.io/devxp-tech/${GITHUB_REPOSITORY}:${{ needs.vars.outputs.tag }},ghcr.io/devxp-tech/${GITHUB_REPOSITORY}:latest
+          tags: ghcr.io/devxp-tech/teste-loki:${{ needs.vars.outputs.tag }},ghcr.io/devxp-tech/teste-loki:latest
 
       - name: Build and Push Liquibase 🚀
         if:   github.event.inputs.migration == 'true'
