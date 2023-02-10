@@ -3,10 +3,10 @@ name: tests
 on:
   push:
     branches:
-    - 'main'
-    - 'feature/**'
-    - 'hotfix/**'
-    - 'release/**'
+      - main
+      - 'release/**'
+      - 'feature/**'
+      - 'hotfix/**'
     paths-ignore:
       - 'README.md'
 
