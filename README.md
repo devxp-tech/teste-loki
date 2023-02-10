@@ -2,7 +2,7 @@
 ## Test Loki
 
 
-[![main](https://github.com/devxp-tech/teste-loki/actions/workflows/main.yml/badge.svg)](https://github.com/devxp-tech/teste-loki/actions/workflows/main.yml)
+[![main](https://github.com/devxp-tech/teste-loki/actions/workflows/main.yaml/badge.svg)](https://github.com/devxp-tech/teste-loki/actions/workflows/main.yaml)
 [![App Status](https://argocd.diegoluisi.eti.br/api/badge?name=dev-teste-loki&revision=true)](https://argocd.diegoluisi.eti.br/applications/dev-teste-loki)
 [![Go Report Card](https://goreportcard.com/badge/github.com/devxp-tech/teste-loki)](https://goreportcard.com/report/github.com/devxp-tech/teste-loki)
 ![GitHub repo size](https://img.shields.io/github/repo-size/devxp-tech/teste-loki)
