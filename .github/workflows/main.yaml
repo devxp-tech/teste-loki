@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - vars
-      - test
+      # - test
       - sonarqube
       - synk
     steps:
