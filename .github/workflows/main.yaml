@@ -27,6 +27,8 @@ jobs:
     uses: devxp-tech/.github/.github/workflows/synk-golang.yml@main
     needs:
       - env
+    secrets:
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
   build-and-push:
     name: Build and Push 📦
