@@ -8,19 +8,8 @@ on:
 
 jobs:
   vars:
-    name: Setup Environment 🛠️
+    uses: devxp-tech/.github/.github/workflows/env.yml@main
     runs-on: ubuntu-latest
-    outputs:
-      tag: ${{ steps.vars.outputs.tag }}
-    steps:
-      - id: vars
-        run: |
-          if [[ ! "$GITHUB_REF" =~ refs/tags ]]; then
-            echo "tag=$(echo $GITHUB_SHA | cut -c 1-8)" >> $GITHUB_OUTPUT
-          else
-            echo "tag=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
-          fi
-      - run: echo ${{ steps.vars.outputs.tag }}
 
   test:
     name: Test Application 🔎
@@ -54,7 +43,6 @@ jobs:
         login: ${{ secrets.SONARQUBE_TOKEN }}
 
   synk:
-    name: Synk Scan 🔒
     needs:
       - vars
     uses: devxp-tech/.github/.github/workflows/synk-golang.yml@main
