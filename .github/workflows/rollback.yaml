@@ -1,0 +1,12 @@
+name: main
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Set Docker Image Tag to Roll Back"
+        required: true
+jobs:
+  rollback:
+    env:
+      uses: devxp-tech/.github/.github/workflows/rollback.yml@main
