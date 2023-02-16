@@ -20,8 +20,8 @@ jobs:
     needs:
       - env
     secrets:
-      host: ${{ secrets.SONARQUBE_HOST }}
-      login: ${{ secrets.SONARQUBE_TOKEN }}
+      SONARQUBE_HOST: ${{ secrets.SONARQUBE_HOST }}
+      SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
 
   synk:
     uses: devxp-tech/.github/.github/workflows/synk-golang.yml@main
