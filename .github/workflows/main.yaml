@@ -7,36 +7,32 @@ on:
     branches: ["main"]
 
 jobs:
-  env:
-    uses: devxp-tech/.github/.github/workflows/env.yml@main
-    outputs:
-      tag: ${{ steps.env.outputs.tag }}
-    
   # env:
-  #   name: Setup Environment 🛠️
-  #   runs-on: ubuntu-latest
+  #   uses: devxp-tech/.github/.github/workflows/env.yml@main
   #   outputs:
   #     tag: ${{ steps.env.outputs.tag }}
-  #   steps:
-  #     - id: env
-  #       run: |
-  #         if [[ ! "$GITHUB_REF" =~ refs/tags ]]; then
-  #           echo "tag=$(echo $GITHUB_SHA | cut -c 1-8)" >> $GITHUB_OUTPUT
-  #         else
-  #           echo "tag=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
-  #         fi
-  #     - run: echo ${{ steps.env.outputs.tag }}
+
+  env:
+    name: Setup Environment 🛠️
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.env.outputs.tag }}
+    steps:
+      - id: env
+        run: |
+          if [[ ! "$GITHUB_REF" =~ refs/tags ]]; then
+            echo "tag=$(echo $GITHUB_SHA | cut -c 1-8)" >> $GITHUB_OUTPUT
+          else
+            echo "tag=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
+          fi
+      - run: echo ${{ steps.env.outputs.tag }}
 
 
   test:
     uses: devxp-tech/.github/.github/workflows/test-golang.yml@main
-    needs:
-      - env
 
   sonarqube:
     uses: devxp-tech/.github/.github/workflows/sonarqube.yml@main
-    needs:
-      - env
     secrets:
       SONARQUBE_HOST: ${{ secrets.SONARQUBE_HOST }}
       SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
@@ -48,42 +44,13 @@ jobs:
   #   secrets:
   #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-
   build-and-push:
-    name: Build and Push 📦
-    runs-on: ubuntu-latest
+    uses: devxp-tech/.github/.github/workflows/build-and-push.yml@main
     needs:
       - env
       - test
       - sonarqube
-      # - synk
-    steps:
-      - name: Checkout the repo 🛎️
-        uses: actions/checkout@v3
 
-      - name: Set rev.txt 🛠️
-        run: git show -s --format="%ai %H %s %aN" HEAD > rev.txt
-
-      - name: Set up QEMU 🛠️
-        uses: docker/setup-qemu-action@v2
-
-      - name: Set up Docker Buildx 🛠️
-        uses: docker/setup-buildx-action@v2
-
-      - name: Login Docker Registry 🪪
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-
-      - name: Build and Push Docker 🚀
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          secrets: |
-            GIT_AUTH_TOKEN=${{ github.token }}
-          tags: ghcr.io/${{ github.repository }}:${{ needs.env.outputs.tag }},ghcr.io/${{ github.repository }}:latest
 
   trivy:
     uses: devxp-tech/.github/.github/workflows/trivy.yml@main
