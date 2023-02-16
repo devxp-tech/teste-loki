@@ -67,6 +67,8 @@ jobs:
             GIT_AUTH_TOKEN=${{ github.token }}
           tags: ghcr.io/devxp-tech/teste-loki:${{ needs.vars.outputs.tag }},ghcr.io/devxp-tech/teste-loki:latest
 
+####
+
   trivy:
     uses: devxp-tech/.github/.github/workflows/trivy.yml@main
     needs:
