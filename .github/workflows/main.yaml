@@ -11,40 +11,19 @@ jobs:
     uses: devxp-tech/.github/.github/workflows/env.yml@main
 
   test:
-    name: Test Application 🔎
-    runs-on: ubuntu-latest
+    uses: devxp-tech/.github/.github/workflows/test-golang.yml@main
     needs:
       - vars
-    strategy:
-      matrix:
-        go: ["1.17", "1.18"]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
-        with:
-          go-version:
-      - run: go test -v ./...
 
   sonarqube:
-    name: SonarQube Scan 🔎
-    runs-on: ubuntu-latest
+    uses: devxp-tech/.github/.github/workflows/test-golang.yml@main
     needs:
       - vars
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        # Disabling shallow clone is recommended for improving relevancy of reporting
-        fetch-depth: 0
-    - name: SonarQube Scan
-      uses: kitabisa/sonarqube-action@v1.2.0
-      with:
-        host: ${{ secrets.SONARQUBE_HOST }}
-        login: ${{ secrets.SONARQUBE_TOKEN }}
 
   synk:
+    uses: devxp-tech/.github/.github/workflows/synk-golang.yml@main
     needs:
       - vars
-    uses: devxp-tech/.github/.github/workflows/synk-golang.yml@main
 
 
   build-and-push:
@@ -134,12 +113,12 @@ jobs:
     if: always()
     name: Post Status To Slack  📣
     needs:
-      - vars
-      - test
-      - sonarqube
-      - synk
-      - build-and-push
-      - trivy
+      # - vars
+      # - test
+      # - sonarqube
+      # - synk
+      # - build-and-push
+      # - trivy
       - deploy
     runs-on: ubuntu-latest
     steps:
