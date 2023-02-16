@@ -55,7 +55,7 @@ jobs:
         login: ${{ secrets.SONARQUBE_TOKEN }}
 
   synk:
-    uses: devxp-tech/.github/workflow-templates/synk-golang.yaml@main
+    uses: devxp-tech/.github/.github/workflows/synk-golang.yml@main
     secrets:
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
