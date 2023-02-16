@@ -8,23 +8,22 @@ on:
 
 jobs:
   env:
-    name: Setup Environment 🛠️
     uses: devxp-tech/.github/.github/workflows/env.yml@main
 
   test:
-    name: Test Golang 🔎
     uses: devxp-tech/.github/.github/workflows/test-golang.yml@main
     needs:
       - env
 
   sonarqube:
-    name: SonarQube Scan 🔎
     uses: devxp-tech/.github/.github/workflows/sonarqube.yml@main
     needs:
       - env
+    with:
+      host: ${{ secrets.SONARQUBE_HOST }}
+      login: ${{ secrets.SONARQUBE_TOKEN }}
 
   synk:
-    name: Snyk Golang 🔒
     uses: devxp-tech/.github/.github/workflows/synk-golang.yml@main
     needs:
       - env
