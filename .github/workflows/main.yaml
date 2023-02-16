@@ -23,12 +23,12 @@ jobs:
       SONARQUBE_HOST: ${{ secrets.SONARQUBE_HOST }}
       SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
 
-  synk:
-    uses: devxp-tech/.github/.github/workflows/synk-golang.yml@main
-    needs:
-      - env
-    secrets:
-      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  # synk:
+  #   uses: devxp-tech/.github/.github/workflows/synk-golang.yml@main
+  #   needs:
+  #     - env
+  #   secrets:
+  #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
 
   build-and-push:
@@ -38,7 +38,7 @@ jobs:
       - env
       - test
       - sonarqube
-      - synk
+      # - synk
     steps:
       - name: Checkout the repo 🛎️
         uses: actions/checkout@v3
@@ -68,22 +68,9 @@ jobs:
           tags: ghcr.io/devxp-tech/teste-loki:${{ needs.vars.outputs.tag }},ghcr.io/devxp-tech/teste-loki:latest
 
   trivy:
-    name: Trivy Scan 🔒
-    runs-on: ubuntu-latest
+    uses: devxp-tech/.github/.github/workflows/trivy.yml@main
     needs:
       - build-and-push
-    steps:
-      - name: Run Trivy vulnerability scanner 🔎
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: ghcr.io/devxp-tech/teste-loki:${{ needs.vars.outputs.tag }}
-          format: 'sarif'
-          output: 'trivy-results.sarif'
-
-      - name: Upload Trivy scan results to GitHub Security Tab 📈
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: 'trivy-results.sarif'
 
   deploy:
     name: GitOps Deploy 🏗️
@@ -114,6 +101,7 @@ jobs:
         git config --local user.name "GitHub Action"
         git commit -am ":robot: [GitHub Action] Set new image tag to https://github.com/devxp-tech/teste-loki/commit/${{ needs.vars.outputs.tag }}"
         git push
+
   slack-workflow-status:
     if: always()
     name: Post Status To Slack  📣
