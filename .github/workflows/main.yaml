@@ -53,8 +53,8 @@ jobs:
   notify:
     uses: devxp-tech/.github/.github/workflows/notify.yml@main
     if: always()
-    with:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    secrets:
+      SONARQUBE_HOST: ${{ secrets.SONARQUBE_HOST }}    
     needs:
       - env
       - test
