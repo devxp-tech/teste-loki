@@ -55,15 +55,10 @@ jobs:
         login: ${{ secrets.SONARQUBE_TOKEN }}
 
   synk:
-    # name: Synk Golang 🔒
-    needs:
-      - vars
-      - test
-      - sonarqube
     uses: devxp-tech/.github/workflow-templates/synk-golang.yaml@main
-    # with:
-    #   env: ${{ github.event.inputs.environment }}
-    # secrets: inherit
+    secrets:
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
 
   build-and-push:
     name: Build and Push 📦
