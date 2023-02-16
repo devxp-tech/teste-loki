@@ -65,7 +65,7 @@ jobs:
           push: true
           secrets: |
             GIT_AUTH_TOKEN=${{ github.token }}
-          tags: ghcr.io/devxp-tech/teste-loki:${{ needs.vars.outputs.tag }},ghcr.io/devxp-tech/teste-loki:latest
+          tags: ghcr.io/$GITHUB_REPOSITORY:${{ needs.env.outputs.tag }},ghcr.io/$GITHUB_REPOSITORY:latest
 
   trivy:
     uses: devxp-tech/.github/.github/workflows/trivy.yml@main
