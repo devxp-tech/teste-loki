@@ -30,7 +30,6 @@ jobs:
     secrets:
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-###
 
   build-and-push:
     name: Build and Push 📦
