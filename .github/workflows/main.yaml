@@ -15,17 +15,16 @@ jobs:
 
   quality-gate:
     uses: devxp-tech/.github/.github/workflows/sonarqube.yml@main
-    secrets:
-      SONARQUBE_HOST: ${{ secrets.SONARQUBE_HOST }}
-      SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+    secrets: inherit
+    # secrets:
+    #   SONARQUBE_HOST: ${{ secrets.SONARQUBE_HOST }}
+    #   SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
 
-  # Test
-  # synk:
-  #   uses: devxp-tech/.github/.github/workflows/synk-golang.yml@main
-  #   needs:
-  #     - env
-  #   secrets:
-  #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  synk:
+    uses: devxp-tech/.github/.github/workflows/synk-golang.yml@main
+    needs:
+      - env
+    secrets: inherit
 
   build-and-push:
     uses: devxp-tech/.github/.github/workflows/build-and-push.yml@main
