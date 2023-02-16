@@ -16,13 +16,6 @@ jobs:
   quality-gate:
     uses: devxp-tech/.github/.github/workflows/sonarqube.yml@main
     secrets: inherit
-    # secrets:
-    #   SONARQUBE_HOST: ${{ secrets.SONARQUBE_HOST }}
-    #   SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
-
-  security-gate:
-    uses: devxp-tech/.github/.github/workflows/synk-golang.yml@main
-    secrets: inherit
 
   build-and-push:
     uses: devxp-tech/.github/.github/workflows/build-and-push.yml@main
@@ -32,9 +25,8 @@ jobs:
       - env
       - test
       - quality-gate
-      # - security-gate
 
-  trivy:
+  security-gateway:
     uses: devxp-tech/.github/.github/workflows/trivy.yml@main
     needs:
       - build-and-push
@@ -46,19 +38,12 @@ jobs:
       tag: ${{ needs.env.outputs.tag }}
       repository: ${{ needs.env.outputs.repository }}
     needs:
-      - env
-      - trivy
+      # - env
+      - security-gateway
 
   notify:
     uses: devxp-tech/.github/.github/workflows/notify.yml@main
     if: always()
     secrets: inherit
-      # SONARQUBE_HOST: ${{ secrets.SONARQUBE_HOST }}
     needs:
-      # - env
-      # - test
-      # - quality-gate
-      # # - synk
-      # - build-and-push
-      # - trivy
       - deploy
