@@ -93,13 +93,13 @@ jobs:
       run: |
         cd apps/teste-loki/overlays/dev
         OLD_TAG=$(cat kustomization.yaml | grep 'tag:' |  awk '{print $2}')
-        NEW_TAG=${{ needs.vars.outputs.tag }}
+        NEW_TAG=${{ needs.env.outputs.tag }}
         sed -i "s|$OLD_TAG|$NEW_TAG|g" kustomization.yaml
     - name: Commit and Push 🚀
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git commit -am ":robot: [GitHub Action] Set new image tag to https://github.com/devxp-tech/teste-loki/commit/${{ needs.vars.outputs.tag }}"
+        git commit -am ":robot: [GitHub Action] Set new image tag to https://github.com/devxp-tech/teste-loki/commit/${{ needs.env.outputs.tag }}"
         git push
 
   slack-workflow-status:
