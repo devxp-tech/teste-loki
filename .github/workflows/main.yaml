@@ -58,6 +58,8 @@ jobs:
     needs:
       - vars
     uses: devxp-tech/.github/.github/workflows/synk-golang.yml@main
+    env:
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     # with:
     #   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
