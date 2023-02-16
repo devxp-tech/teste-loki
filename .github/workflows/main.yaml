@@ -28,6 +28,8 @@ jobs:
 
   build-and-push:
     uses: devxp-tech/.github/.github/workflows/build-and-push.yml@main
+    with:
+      tag: ${{ needs.env.outputs.tag }}
     needs:
       - env
       - test
