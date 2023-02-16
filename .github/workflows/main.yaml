@@ -55,7 +55,7 @@ jobs:
         login: ${{ secrets.SONARQUBE_TOKEN }}
 
   synk:
-    name: Synk Golang 🔒
+    # name: Synk Golang 🔒
     needs:
       - vars
       - test
@@ -63,7 +63,7 @@ jobs:
     uses: devxp-tech/github-workflows/blob/main/workflows/synk.yaml@main
     # with:
     #   env: ${{ github.event.inputs.environment }}
-    secrets: inherit
+    # secrets: inherit
 
   build-and-push:
     name: Build and Push 📦
