@@ -20,10 +20,8 @@ jobs:
     #   SONARQUBE_HOST: ${{ secrets.SONARQUBE_HOST }}
     #   SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
 
-  synk:
+  security-gate:
     uses: devxp-tech/.github/.github/workflows/synk-golang.yml@main
-    needs:
-      - env
     secrets: inherit
 
   build-and-push:
@@ -34,6 +32,7 @@ jobs:
       - env
       - test
       - quality-gate
+      - security-gate
 
   trivy:
     uses: devxp-tech/.github/.github/workflows/trivy.yml@main
