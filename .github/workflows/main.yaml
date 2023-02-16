@@ -60,7 +60,7 @@ jobs:
       - vars
       - test
       - sonarqube
-    uses: devxp-tech/github-workflows/blob/main/workflows/synk.yaml@main
+    uses: devxp-tech/.github/workflow-templates/synk-golang.yaml@main
     # with:
     #   env: ${{ github.event.inputs.environment }}
     # secrets: inherit
