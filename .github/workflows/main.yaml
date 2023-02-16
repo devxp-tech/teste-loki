@@ -13,7 +13,7 @@ jobs:
   test:
     uses: devxp-tech/.github/.github/workflows/test-golang.yml@main
 
-  sonarqube:
+  quality-gate:
     uses: devxp-tech/.github/.github/workflows/sonarqube.yml@main
     secrets:
       SONARQUBE_HOST: ${{ secrets.SONARQUBE_HOST }}
@@ -34,7 +34,7 @@ jobs:
     needs:
       - env
       - test
-      - sonarqube
+      - quality-gate
 
   trivy:
     uses: devxp-tech/.github/.github/workflows/trivy.yml@main
@@ -53,10 +53,12 @@ jobs:
   notify:
     uses: devxp-tech/.github/.github/workflows/notify.yml@main
     if: always()
+    secrets:
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     needs:
       - env
       - test
-      - sonarqube
+      - quality-gate
       # - synk
       - build-and-push
       - trivy
