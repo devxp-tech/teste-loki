@@ -42,6 +42,8 @@ jobs:
 
   deploy:
     uses: devxp-tech/.github/.github/workflows/deploy.yml@main
+    with:
+      tag: ${{ needs.env.outputs.tag }}
     needs:
       - trivy
 
