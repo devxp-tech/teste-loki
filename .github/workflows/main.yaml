@@ -45,6 +45,7 @@ jobs:
     with:
       tag: ${{ needs.env.outputs.tag }}
     needs:
+      - env
       - trivy
 
   slack-workflow-status:
