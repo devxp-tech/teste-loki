@@ -1,12 +1,25 @@
-name: main
+name: rollback
 
 on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Set Docker Image Tag to Roll Back"
+        description: "Set Docker Image Tag to RollBack"
         required: true
 jobs:
+  env:
+    uses: devxp-tech/.github/.github/workflows/env.yml@main
+
   rollback:
-    env:
-      uses: devxp-tech/.github/.github/workflows/rollback.yml@main
+    uses: devxp-tech/.github/.github/workflows/rollback.yml@main
+    secrets: inherit
+    with:
+      tag: ${{ needs.env.outputs.tag }}
+      repository: ${{ needs.env.outputs.repository }}
+
+  notify:
+    uses: devxp-tech/.github/.github/workflows/notify.yml@main
+    if: always()
+    secrets: inherit
+    needs:
+      - rollback
