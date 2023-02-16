@@ -39,8 +39,8 @@ services:
     build:
       context: .
       target: base
-    depends_on:
-      - liquibase
+    # depends_on:
+    #   - liquibase
     working_dir: /app/
     command: go test -v ./...
     environment:
@@ -68,6 +68,7 @@ services:
       context: .
       target: ci
     volumes: []
+
 volumes:
   pgdata: {}
   go_packages: {}

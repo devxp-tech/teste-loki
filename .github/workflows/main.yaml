@@ -11,7 +11,7 @@ jobs:
     uses: devxp-tech/.github/.github/workflows/env.yml@main
 
   test:
-    uses: devxp-tech/.github/.github/workflows/test-golang.yml@main
+    uses: devxp-tech/.github/.github/workflows/test.yml@main
 
   quality-gate:
     uses: devxp-tech/.github/.github/workflows/sonarqube.yml@main
@@ -38,7 +38,7 @@ jobs:
       tag: ${{ needs.env.outputs.tag }}
       repository: ${{ needs.env.outputs.repository }}
     needs:
-      # - env
+      - env
       - security-gateway
 
   notify:
