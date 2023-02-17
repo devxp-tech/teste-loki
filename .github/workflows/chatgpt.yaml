@@ -8,3 +8,5 @@ jobs:
   chatgpt:
     uses: devxp-tech/.github/.github/workflows/chatgpt.yml@main
     secrets: inherit
+
+### Test
