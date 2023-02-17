@@ -14,7 +14,7 @@ jobs:
     uses: devxp-tech/.github/.github/workflows/rollback.yml@main
     secrets: inherit
     with:
-      tag: ${{ needs.env.outputs.tag }}
+      tag: ${{ inputs.tag }}
       repository: ${{ needs.env.outputs.repository }}
     needs:
       - env
