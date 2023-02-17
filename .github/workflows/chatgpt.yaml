@@ -1,0 +1,12 @@
+name: chatgpt
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  chatgpt:
+    uses: devxp-tech/.github/.github/workflows/chatgpt.yml@main
+    secrets: inherit
+
+### Test
