@@ -31,6 +31,12 @@ jobs:
     needs:
       - build-and-push
 
+  synk:
+    uses: devxp-tech/.github/.github/workflows/synk/golang.yaml@main
+    secrets: inherit
+    needs:
+      - build-and-push
+
   deploy:
     uses: devxp-tech/.github/.github/workflows/deploy.yaml@main
     secrets: inherit
