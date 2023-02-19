@@ -17,8 +17,7 @@ jobs:
     uses: devxp-tech/.github/.github/workflows/sonarqube.yaml@main
     secrets: inherit
 
-# Test
-  synk:
+  code-scan:
     uses: devxp-tech/.github/.github/workflows/synk-golang.yaml@main
     secrets: inherit
 
@@ -30,7 +29,7 @@ jobs:
       - env
       - test
       - quality-gate
-      - synk
+      - code-scan
 
   security-gateway:
     uses: devxp-tech/.github/.github/workflows/trivy.yaml@main
