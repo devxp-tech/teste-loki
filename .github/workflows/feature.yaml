@@ -37,10 +37,10 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
 
-    - name: Create Pull Request
-      run: gh pr create --base release/release-candidate --title "* * * Automatic Created * * *" --body "Everything works again"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Create Pull Request
+    #   run: gh pr create --base release/release-candidate --title "* * * Automatic Created * * *" --body "Everything works again"
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   notify:
     uses: devxp-tech/.github/.github/workflows/notify.yaml@main
