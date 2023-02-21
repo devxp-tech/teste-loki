@@ -38,7 +38,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Create Pull Request
-      run: gh pr create --base release/release-candidate --title ":robot: Automatic Created"
+      run: gh pr create --base release/release-candidate --title "* * * Automatic Created * * *"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
