@@ -1,15 +1,9 @@
 name: release
 
 on:
-  pull_request:
-    types: [opened, synchronize]
+  push:
     branches:
       - 'release/**'
-
-## feature tests
-## release build-and-push, deploy
-## hotfix tests , build-and-push, deploy
-## main promote
 
 jobs:
   env:
@@ -32,7 +26,9 @@ jobs:
     secrets: inherit
     with:
       tag: ${{ needs.env.outputs.tag }}
+      environment: staging
       repository: ${{ needs.env.outputs.repository }}
+      url: 'https://${{ needs.env.outputs.repository }}.devxp-tech.io'
     needs:
       - env
       - security-gateway
