@@ -45,7 +45,7 @@ jobs:
 
       # git push -u origin release/${GITHUB_REF#refs/*/}
     - name: Create Pull Request
-      run: gh pr create --base release/${GITHUB_REF#refs/*/} --fill
+      run: gh pr create --base release/${GITHUB_REF#refs/*/} --fill --head
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
