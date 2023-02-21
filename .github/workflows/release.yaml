@@ -5,6 +5,9 @@ on:
     branches:
       - 'release/**'
 
+env:
+  ENVIRONMENT: development
+
 jobs:
   env:
     uses: devxp-tech/.github/.github/workflows/env.yaml@main
@@ -26,9 +29,9 @@ jobs:
     secrets: inherit
     with:
       tag: ${{ needs.env.outputs.tag }}
-      environment: staging
       repository: ${{ needs.env.outputs.repository }}
-      url: 'https://${{ needs.env.outputs.repository }}.devxp-tech.io'
+      url: https://${{ needs.env.outputs.repository }}.devxp-tech.io
+      environment: ${{ env.ENVIRONMENT }}
     needs:
       - env
       - security-gateway
