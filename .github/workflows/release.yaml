@@ -31,7 +31,7 @@ jobs:
       tag: ${{ needs.env.outputs.tag }}
       repository: ${{ needs.env.outputs.repository }}
       url: https://${{ needs.env.outputs.repository }}.devxp-tech.io
-      environment: ${{ env.ENVIRONMENT }}
+      environment: development
     needs:
       - env
       - security-gateway
