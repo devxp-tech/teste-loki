@@ -36,16 +36,15 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
-      with:
-        ref: 'release/test'
     - name: Push to Github
       run: |
         git config user.name github-actions
         git config user.email github-actions@github.com
+        git checkout -b release/test
         git push -u origin release/test
 
     - name: Create Pull Request
-      run: gh pr create --fill
+      run: gh pr create --base release/test --fill
 
   notify:
     uses: devxp-tech/.github/.github/workflows/notify.yaml@main
