@@ -34,24 +34,18 @@ jobs:
       - quality-gate
       - code-scan
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout Code
+      uses: actions/checkout@v3
+      with:
+        ref: 'release/test'
+    - name: Push to Github
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git push -u origin release/test
 
-      - name: Create Branch
-        uses: peterjgrainger/action-create-branch@v2.2.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          branch: 'release/teste'
-          sha: '${{ github.event.pull_request.head.sha }}'
-
-      - name: Create pull request
-        uses: devops-infra/action-pull-request@v0.5.5
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          title: Automatic pull request
-          target_branch: 'release/teste'
-          label: automatic,feature
+    - name: Create Pull Request
+      run: gh pr create --fill
 
   notify:
     uses: devxp-tech/.github/.github/workflows/notify.yaml@main
