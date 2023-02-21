@@ -40,12 +40,12 @@ jobs:
       run: |
         git config user.name github-actions
         git config user.email github-actions@github.com
-        git checkout -b release/${GITHUB_REF#refs/*/}
+        git checkout -b release/${GITHUB_REF_NAME}
         echo $GITHUB_HEAD_REF
 
       # git push -u origin release/${GITHUB_REF#refs/*/}
     - name: Create Pull Request
-      run: gh pr create --base release/${GITHUB_REF#refs/*/} --fill --head
+      run: gh pr create --base release/${GITHUB_REF_NAME} --fill --head ${GITHUB_REF_NAME}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
