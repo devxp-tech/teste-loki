@@ -35,9 +35,9 @@ jobs:
       # - code-scan
 
 
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+    # steps:
+    # - name: Checkout Code
+    #   uses: actions/checkout@v3
 
     # - name: Create Pull Request
     #   run: gh pr create --base release/release-candidate --title "* * * Automatic Created * * *" --body "Everything works again"
@@ -53,4 +53,4 @@ jobs:
       # - test
       # - quality-gate
       # - code-scan
-      - action-pull-request
+      # - action-pull-request
