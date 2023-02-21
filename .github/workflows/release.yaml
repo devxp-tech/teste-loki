@@ -1,0 +1,45 @@
+name: release
+
+on:
+  push:
+    branches:
+      - 'release/**'
+
+## feature tests
+## release build-and-push, deploy
+## hotfix tests , build-and-push, deploy
+## main promote
+
+jobs:
+  env:
+    uses: devxp-tech/.github/.github/workflows/env.yaml@main
+
+  build-and-push:
+    uses: devxp-tech/.github/.github/workflows/build-and-push.yaml@main
+    with:
+      tag: ${{ needs.env.outputs.tag }}
+    needs:
+      - env
+
+
+  security-gateway:
+    uses: devxp-tech/.github/.github/workflows/trivy.yaml@main
+    needs:
+      - build-and-push
+
+  deploy:
+    uses: devxp-tech/.github/.github/workflows/deploy.yaml@main
+    secrets: inherit
+    with:
+      tag: ${{ needs.env.outputs.tag }}
+      repository: ${{ needs.env.outputs.repository }}
+    needs:
+      - env
+      - security-gateway
+
+  notify:
+    uses: devxp-tech/.github/.github/workflows/notify.yaml@main
+    if: always()
+    secrets: inherit
+    needs:
+      - deploy
