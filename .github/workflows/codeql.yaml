@@ -9,11 +9,12 @@ on:
       - 'hotfix/**'
   schedule:
     - cron: '29 18 * * 2'
-    jobs:
-      env:
-        uses: devxp-tech/.github/.github/workflows/codeql.yaml@main
-        permissions:
-          actions: read
-          contents: read
-        with:
-          languague: go
+
+jobs:
+  env:
+    uses: devxp-tech/.github/.github/workflows/codeql.yaml@main
+    permissions:
+      actions: read
+      contents: read
+    with:
+      languague: go
