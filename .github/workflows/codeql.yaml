@@ -17,4 +17,4 @@ jobs:
       actions: read
       contents: read
     with:
-      languague: go
+      language: go
