@@ -16,6 +16,7 @@ jobs:
     permissions:
       actions: read
       contents: read
-      security-events: write
-      with:
-        languague: go
+    with:
+      languague: go
+
+
