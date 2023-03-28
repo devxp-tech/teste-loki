@@ -1,0 +1,48 @@
+# Default values for devxp-app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# --name is the github repository name of this application deploy
+
+name: teste-loki
+namespace:
+  enabled: false
+image:
+  repository: ghcr.io/devxp-tech/teste-loki
+  tag: b289a6c9
+network:
+  service:
+    type: NodePort
+resources:
+  requests:
+    cpu: "200m"
+    memory: "256Mi"
+  limits:
+    cpu: "400m"
+    memory: "512Mi"
+deployment:
+  enabled: true
+argoRollouts:
+  enabled: false
+sealedSecrets:
+  enabled: false
+quota:
+  enabled: false
+istioInjection:
+  enabled: false
+ingress:
+  enabled: false
+autoscaling:
+  enabled: false
+container:
+  port: 8080
+probe:
+  enabled: false
+
+
+
+
+
+
+
+
