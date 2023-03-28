@@ -1,12 +1,12 @@
 name: "CodeQL"
 
 on:
-  branches:
-    - main
-    - 'feature/**'
-    - 'release/**'
-    - 'hotfix/**'
-
+  push:
+    branches:
+      - main
+      - 'feature/**'
+      - 'release/**'
+      - 'hotfix/**'
   schedule:
     - cron: '29 18 * * 2'
 
