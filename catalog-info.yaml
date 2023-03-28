@@ -6,7 +6,7 @@ metadata:
   annotations:
     github.com/project-slug: devxp-tech/teste-loki
     backstage.io/techdocs-ref: dir:.
-    argocd/app-name: dev-teste-loki
+    argocd/app-name: teste-loki-dev
     backstage.io/kubernetes-id: "teste-loki"
     sonarqube.org/project-key: "teste-loki"
     grafana/tag-selector: "Kubernetes"

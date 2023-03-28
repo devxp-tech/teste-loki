@@ -39,8 +39,6 @@ services:
     build:
       context: .
       target: base
-    # depends_on:
-    #   - liquibase
     working_dir: /app/
     command: go test -v ./...
     environment:
