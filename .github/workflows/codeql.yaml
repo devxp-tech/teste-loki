@@ -13,8 +13,9 @@ on:
 jobs:
   env:
     uses: devxp-tech/.github/.github/workflows/codeql.yaml@main
+    with:
+      language: go
     permissions:
       actions: read
       contents: read
-    with:
-      language: go
+      security-events: write
