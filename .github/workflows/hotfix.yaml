@@ -4,10 +4,10 @@ on:
   push:
     branches:
       - 'hotfix/**'
-      paths-ignore:
-        - README.md
-        - catalog-info.yaml
-        - 'docs/**'
+    paths-ignore:
+      - README.md
+      - catalog-info.yaml
+      - 'docs/**'
 
 jobs:
   env:
