@@ -1,14 +1,8 @@
-name: "CodeQL"
+name: CodeQL 🔎
 
 on:
-  push:
-    branches:
-      - main
-      - 'feature/**'
-      - 'release/**'
-      - 'hotfix/**'
   schedule:
-    - cron: '29 18 * * 2'
+    - cron: '30 6 * * *'
 
 jobs:
   env:
@@ -19,3 +13,4 @@ jobs:
       actions: read
       contents: read
       security-events: write
+

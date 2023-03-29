@@ -1,4 +1,4 @@
-name: rollback
+name: Rollback 🔙
 
 on:
   workflow_dispatch:

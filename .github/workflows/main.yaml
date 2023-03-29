@@ -1,10 +1,12 @@
-name: main
+name: Main 🚀
 
 on:
   push:
     branches:
       - main
     paths-ignore:
+      - README.md
+      - catalog-info.yaml
       - 'docs/**'
 
 jobs:
