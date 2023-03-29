@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - 'release/**'
+    paths-ignore:
+      - README.md
+      - catalog-info.yaml
+      - 'docs/**'
 
 env:
   ENVIRONMENT: development

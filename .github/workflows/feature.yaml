@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - 'feature/**'
+    paths-ignore:
+      - README.md
+      - catalog-info.yaml
+      - 'docs/**'
+
 
 jobs:
   env:
