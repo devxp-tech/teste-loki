@@ -1,14 +1,9 @@
-name: hotfix
+name: HotFix 🔥
 
 on:
   push:
     branches:
       - 'hotfix/**'
-
-## feature tests
-## release build-and-push, deploy
-## hotfix tests , build-and-push, deploy
-## main promote
 
 jobs:
   env:
