@@ -8,7 +8,7 @@ on:
       - 'release/**'
       - 'hotfix/**'
   schedule:
-    - cron: '29 18 * * 2'
+    - cron: '30 6 * * *'
 
 jobs:
   env:
