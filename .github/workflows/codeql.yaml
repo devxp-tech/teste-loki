@@ -1,12 +1,6 @@
 name: CodeQL 🔎
 
 on:
-  push:
-    branches:
-      - main
-      - 'feature/**'
-      - 'release/**'
-      - 'hotfix/**'
   schedule:
     - cron: '30 6 * * *'
 
