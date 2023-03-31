@@ -33,7 +33,7 @@ jobs:
       - build-and-push
 
   release:
-    uses: devxp-tech/.github/.github/workflows/trivy.yaml@main
+    uses: devxp-tech/.github/.github/workflows/create-release.yaml@main
     secrets: inherit
     with:
       tag: ${{ needs.env.outputs.tag }}
