@@ -51,8 +51,8 @@ jobs:
       environment: development
     needs:
       - env
-      - release
       - security-gateway
+      - release
 
   notify:
     uses: devxp-tech/.github/.github/workflows/notify.yaml@main
