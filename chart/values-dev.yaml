@@ -6,13 +6,14 @@
 
 name: teste-loki
 namespace:
-  enabled: false
+  enabled: true
 image:
   repository: ghcr.io/devxp-tech/teste-loki
   tag: b289a6c9
 network:
   service:
     type: NodePort
+    nodePort: 3005
 resources:
   requests:
     cpu: "200m"
@@ -38,11 +39,3 @@ container:
   port: 8080
 probe:
   enabled: false
-
-
-
-
-
-
-
-
