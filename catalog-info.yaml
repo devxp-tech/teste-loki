@@ -8,6 +8,7 @@ metadata:
     backstage.io/techdocs-ref: dir:.
     argocd/app-name: teste-loki-dev
     backstage.io/kubernetes-id: "teste-loki"
+    kubecost.com/deployment-name: "teste-loki"
     sonarqube.org/project-key: "teste-loki"
     grafana/tag-selector: "Kubernetes"
     prometheus.io/rule: container_cpu_usage_seconds_total{namespace="teste-loki"}
