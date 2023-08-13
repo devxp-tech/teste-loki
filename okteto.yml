@@ -1,0 +1,20 @@
+name: teste-loki
+build:
+  teste-loki:
+    context: .
+    image: ghcr.io/devxp-tech/teste-loki
+deploy:
+  - helm install devxp-app devxp-tech/devxp-app -f chart/values-dev.yaml
+dev:
+  teste-loki:
+    image: ghcr.io/devxp-tech/teste-loki
+    command: bash
+    sync:
+      - .:/src
+    securityContext:
+      capabilities:
+        add:
+          - SYS_PTRACE
+    workdir: /src
+    forward:
+      - 8080:8080
