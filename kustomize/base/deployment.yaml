@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teste-loki
+  labels:
+    app: teste-loki
+    component: web
+spec:
+  selector:
+    matchLabels:
+      app: teste-loki
+      component: web
+  template:
+    metadata:
+      labels:
+        app: teste-loki
+        component: web
+    spec:
+      # imagePullSecrets:
+      #   - name: ghcr-secret
+      containers:
+        - name: teste-loki
+          image: ghcr.io/devxp-tech/teste-loki #:devspace
+          # image: diegoluisi/teste-loki
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "200m"
+              memory: "512Mi"
