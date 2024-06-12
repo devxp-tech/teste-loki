@@ -11,8 +11,8 @@ metadata:
     kubecost.com/deployment-name: "teste-loki"
     sonarqube.org/project-key: "teste-loki"
     grafana/tag-selector: "Kubernetes"
-    prometheus.io/rule: cpu_usage|container_cpu_usage_seconds_total{namespace="teste-loki"}
     prometheus.io/alert: ContainerHighCpuUtilization,ContainerHighMemoryUsage,ContainerVolumeUsage
+    prometheus.io/rule: container_cpu_usage_seconds_total{namespace="teste-loki"}
   links:
     - url: https://teste-loki.diegoluisi.eti.br
       title: Website
