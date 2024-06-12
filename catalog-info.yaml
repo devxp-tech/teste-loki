@@ -12,7 +12,7 @@ metadata:
     sonarqube.org/project-key: "teste-loki"
     grafana/tag-selector: "Kubernetes"
     prometheus.io/alert: ContainerHighCpuUtilization,ContainerHighMemoryUsage,ContainerVolumeUsage
-    prometheus.io/rule: sum by (pod) (container_memory_usage_bytes{namespace="teste-loki"})
+    prometheus.io/rule: sum by (pod) (rate(container_memory_working_set_bytes{namespace="teste-loki"}[15m]))
   links:
     - url: https://teste-loki.diegoluisi.eti.br
       title: Website
