@@ -11,7 +11,7 @@ metadata:
     kubecost.com/deployment-name: "teste-loki"
     sonarqube.org/project-key: "teste-loki"
     grafana/tag-selector: "Kubernetes"
-    prometheus.io/rule: memUsage|component,node_memory_active_bytes|instance,sum by (instance) (node_cpu_seconds_total)
+    prometheus.io/rule: 'sum by (pod) (container_memory_usage_bytes{namespace="teste-loki"}), sum by (pod) (rate(container_cpu_usage_seconds_total{namespace="teste-loki"}[1m]))'
     prometheus.io/alert: KubernetesVolumeOutOfDiskSpace
   links:
     - url: https://teste-loki.diegoluisi.eti.br
