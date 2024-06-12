@@ -11,7 +11,7 @@ metadata:
     kubecost.com/deployment-name: "teste-loki"
     sonarqube.org/project-key: "teste-loki"
     grafana/tag-selector: "Kubernetes"
-    prometheus.io/rule: cpu_usage|sum by (pod) (container_cpu_usage_seconds_total{namespace="teste-loki"}),memUsage|sum by (pod) (container_memory_working_set_bytes{namespace="teste-loki"})
+    prometheus.io/rule: 'cpu_usage|sum by (pod) (container_cpu_usage_seconds_total{namespace="teste-loki"}),mem_usage|sum by (pod) (container_memory_working_set_bytes{namespace="teste-loki"})'
     prometheus.io/alert: ContainerHighCpuUtilization,ContainerHighMemoryUsage,ContainerVolumeUsage
   links:
     - url: https://teste-loki.diegoluisi.eti.br
