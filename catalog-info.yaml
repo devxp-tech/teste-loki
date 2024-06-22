@@ -10,7 +10,8 @@ metadata:
     backstage.io/kubernetes-id: "teste-loki"
     kubecost.com/deployment-name: "teste-loki"
     sonarqube.org/project-key: "teste-loki"
-    grafana/tag-selector: "Kubernetes"
+    #grafana/tag-selector: "Kubernetes"
+    grafana/alert-label-selector: "service=Kubernetes"
     prometheus.io/alert: ContainerHighCpuUtilization,ContainerHighMemoryUsage,ContainerVolumeUsage
     prometheus.io/rule: sum by (pod) (container_memory_usage_bytes{namespace="teste-loki"}), sum by (pod) (container_cpu_usage_seconds_total{namespace="teste-loki"})
   links:
