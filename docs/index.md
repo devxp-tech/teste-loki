@@ -1,5 +1,5 @@
 # teste-loki
 
-## Example
+## Example Documentation
 
 This is a basic example of documentation.
